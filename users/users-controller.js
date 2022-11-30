@@ -49,18 +49,23 @@ const UserController = (app) => {
 
     const updateUser = (req, res) => {
         const userId = req.params['uid'];
+        console.log(userId);
         const updates = req.body;
+        const usr = users.find((usr) => usr._id === userId);
+        console.log(usr)
+        const newUser = {...usr, ...updates};
         users = users.map((usr) =>
             usr._id === userId ?
                 {...usr, ...updates} :
                 usr
         );
-        res.sendStatus(200);
+        console.log(newUser)
+        res.json(newUser);
     }
 
     const register = (req, res) => {
         const newUser = req.body;
-        console.log(newUser)
+        // console.log(newUser)
         newUser._id = (new Date()).getTime() + '';
         users.push(newUser);
         res.json(newUser);
@@ -68,7 +73,7 @@ const UserController = (app) => {
 
     const login = (req, res) => {
         const credentials = req.body
-        console.log(credentials)
+        // console.log(credentials)
         const existingUser = users
             .find(u => u.username == credentials.username &&
                         u.password == credentials.password

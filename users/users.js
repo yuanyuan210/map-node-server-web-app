@@ -7,7 +7,8 @@ export default [
         lastName:'we',
         email:'yuanyuan1@gmail.com',
         role:'manage',
-        logined: false
+        logined: false,
+        bio: 'xxx'
     },
     {
         _id: '222',
@@ -17,7 +18,9 @@ export default [
         lastName:'ye',
         email:'yuanyuan2@gmail.com',
         role:'manage',
-        logined: false
+        logined: false,
+        bio:'111'
+
     },
     {
         _id: '333',
@@ -27,6 +30,7 @@ export default [
         lastName:'qe',
         email:'yuanyuan3@gmail.com',
         role:'manage',
-        logined: false
+        logined: false,
+        bio:'111222'
     },
 ]
