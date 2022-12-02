@@ -6,7 +6,7 @@ const createLike = async (req, res) => {
     place: req.params.xid
   }
   const insertedLike = await likesDao.createLike(newLike);
-  res.json(insertedLike)
+  res.json(insertedLike);
 }
 
 const deleteLike = async (req, res) => {
@@ -15,7 +15,7 @@ const deleteLike = async (req, res) => {
     place: req.params.xid
   }
   const status = await likesDao.deleteLike(likeToDelete);
-  res.json(status)
+  res.json(status);
 }
 
 const findAllLikes = async (req, res) => {
@@ -40,7 +40,7 @@ const findPlaceLikesCount = async (req, res) => {
 
 const findLikesByUser = async (req, res) => {
   const likes = await likesDao.findLikesByUser(req.params.uid);
-  res.json(likes)
+  res.json(likes);
 }
 
 
