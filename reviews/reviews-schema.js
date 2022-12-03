@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const reviewsSchema = new mongoose.Schema({
-  place: String,
-  user: String,
+  place: {xid: String, name: String},
+  user: {_id: String, username: String},
   content: String
 }, {collection: "reviews"});
 

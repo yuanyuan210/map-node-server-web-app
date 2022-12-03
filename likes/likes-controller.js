@@ -1,18 +1,15 @@
 import * as likesDao from "./likes-dao.js";
 
 const createLike = async (req, res) => {
-  const newLike = {
-    user: req.params.uid,
-    place: req.params.xid
-  }
+  const newLike = req.body;
   const insertedLike = await likesDao.createLike(newLike);
   res.json(insertedLike);
 }
 
 const deleteLike = async (req, res) => {
   const likeToDelete = {
-    user: req.params.uid,
-    place: req.params.xid
+    "user._id": req.params.uid,
+    "place.xid": req.params.xid
   }
   const status = await likesDao.deleteLike(likeToDelete);
   res.json(status);
@@ -25,8 +22,8 @@ const findAllLikes = async (req, res) => {
 
 const findLike = async (req, res) => {
   const likeToFind = {
-    user: req.params.uid,
-    place: req.params.xid
+    "user._id": req.params.uid,
+    "place.xid": req.params.xid
   };
   const like = await likesDao.findLike(likeToFind);
   res.json(like? true : false);
@@ -46,7 +43,7 @@ const findLikesByUser = async (req, res) => {
 
 
 const LikesController = (app) => {
-  app.post('/api/likes/user/:uid/place/:xid', createLike)
+  app.post('/api/likes', createLike)
   app.delete('/api/likes/user/:uid/place/:xid', deleteLike)
   app.get('/api/likes', findAllLikes)
   app.get('/api/likes/user/:uid/place/:xid', findLike)
