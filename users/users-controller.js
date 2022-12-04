@@ -1,111 +1,102 @@
-import people from './users.js'
+import {
+    findUserByCredentials,
+    findUserByUsername,
+    findAllUsers,
+    findUserById,
+    createUser,
+    deleteUser,
+    updateUser
+} from "./users-dao.js";
 
-let users = people
+import usersModel from "./users-model.js"
+
 
 let currentUser = null
 
 const templateUser = {
-    "username": ""
+    username: "",
+    email: ""
 }
 
 const UserController = (app) => {
-    const findUsers = (req, res) => {
-        const role = req.query.role
-        if (role) {
-            const usersOfRole = users.filter(u => u.role === role)
-            res.json(usersOfRole)
-            return
-        }
-        res.json(users)
+
+    const createUserIn = async (req, res) => {
+        const user = req.body
+        const actualUser = await createUser(user)
+        res.json(actualUser)
     }
 
-    const findUserById = (req, res) => {
-        const userId = req.params.uid;
-        const user = users
-            .find(u => u._id === userId);
-        res.json(user);
+    const findAllUsersIn = async (req, res) => {
+        const users = await findAllUsers();
+        res.json(users);
     }
 
-    const findUserByEmail = (req, res) => {
-        const email = req.params.email;
-        const user = users
-            .find(u => u.email === email);
-        res.json(user);
+    const deleteUserIn = async (req, res) => {
+        const uid = req.params.uid
+        const status = await deleteUser(uid)
+        res.json(status)
     }
 
-    const createUser = (req, res) => {
-        const newUser = req.body;
-        newUser._id = (new Date()).getTime() + '';
-        users.push(newUser);
-        res.json(newUser);
+    const updateUserIn = async (req, res) => {
+        const uid = req.params.uid
+        const updates = req.body
+        const status = await updateUser(uid, updates)
+        res.json(status)
     }
 
-    const deleteUser = (req, res) => {
-        const userId = req.params['uid'];
-        users = users.filter(usr =>
-            usr._id !== userId);
-        res.sendStatus(200);
-    }
+    const register = async (req, res) => {
+        const user = req.body;
 
-    const updateUser = (req, res) => {
-        const userId = req.params['uid'];
-        console.log(userId);
-        const updates = req.body;
-        const usr = users.find((usr) => usr._id === userId);
-        console.log(usr)
-        const newUser = {...usr, ...updates};
-        users = users.map((usr) =>
-            usr._id === userId ?
-                {...usr, ...updates} :
-                usr
-        );
-        console.log(newUser)
-        res.json(newUser);
-    }
+        const existingUser = await findUserByUsername(user.username)
+        console.log(user.username)
 
-    const register = (req, res) => {
-        const newUser = req.body;
-        // console.log(newUser)
-        newUser._id = (new Date()).getTime() + '';
-        users.push(newUser);
-        res.json(newUser);
-    }
-
-    const login = (req, res) => {
-        const credentials = req.body
-        // console.log(credentials)
-        const existingUser = users
-            .find(u => u.username == credentials.username &&
-                        u.password == credentials.password
-                 );
-
-        if (!existingUser) {
+        if (existingUser) {
             res.sendStatus(403)
             return
         }
 
+        const actualUser = await createUser(user)
+
+        console.log(actualUser)
+        //req.session['currentUser'] = currentUser
+        currentUser = actualUser
+        res.json(actualUser)
+    }
+
+    const login = async (req, res) => {
+        const credentials = req.body
+        console.log(credentials)
+        const existingUser = await findUserByCredentials(credentials.username, credentials.password);
+        if (!existingUser) {
+            res.sendStatus(403)
+            return
+        }
         currentUser = existingUser
         res.json(existingUser)
     }
 
-    const logout = (req, res) => {
+    const logout = async (req, res) => {
         currentUser = null
         res.sendStatus(200)
     }
 
-    app.get('/api/users', findUsers);
-    app.get('/api/users/:email', findUserByEmail);
-
-    app.get('/api/users/:uid', findUserById);
+    //?
+    const profile = async (req, res) => {
+        if (currentUser) {
+            res.json(currentUser)
+            return
+        }
+        res.sendStatus(403)
+    }
 
     app.post('/api/register', register);
-    app.post('/api/users', createUser);
-    app.delete('/api/users/:uid', deleteUser);
-    app.put('/api/users/:uid', updateUser);
-
     app.post('/api/login', login)
     app.post('/api/logout', logout)
+    app.post('/api/profile', profile)
+
+    app.get('/api/users', findAllUsersIn)
+    app.put('/api/user', updateUserIn)
+    app.delete('/api/user', deleteUserIn)
 
 }
-
-export default UserController
+export default UserController;
