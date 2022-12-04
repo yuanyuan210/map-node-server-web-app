@@ -46,7 +46,6 @@ const UserController = (app) => {
 
     const register = async (req, res) => {
         const user = req.body;
-
         const existingUser = await findUserByUsername(user.username)
         console.log(user.username)
 
