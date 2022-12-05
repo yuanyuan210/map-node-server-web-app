@@ -1,12 +1,26 @@
-import usersModel from "./users-model.js"
+import usersModel from "./users-model.js";
 
-export const findAllUsers = () => usersModel.find();
-export const findUserById = (userId) => usersModel.findById(userId);
-export const findUserByUsername = (username) => usersModel.findOne({username: username});
-export const findUserByCredentials = (username, password) => usersModel.findOne({
-    username: username,
-    password: password
-});
-export const createUser = (user) => usersModel.create(user);
-export const deleteUser = (uid) => usersModel.deleteOne({_id: uid});
-export const updateUser = (uid, user) => usersModel.updateOne({_id: uid}, {$set: user});
+export const createUser = async (user) =>
+    await usersModel.create(user)
+
+export const findUserByUsername = async (username) =>
+    await usersModel.findOne({username: username})
+
+export const findUserByCredentials = async (username, password) =>
+    await usersModel.findOne({
+      username: username,
+      password: password
+    })
+
+export const findAllUsers = async () =>
+    await usersModel.find()
+
+export const deleteUser = async (uid) =>
+    await usersModel.deleteOne({_id: uid})
+
+export const updateUser = async (uid, userUpdates) =>
+    await usersModel.updateOne({_id: uid},
+        {$set: userUpdates})
+
+export const findUserById = (uid) =>
+    usersModel.findById(uid, {password: false})
