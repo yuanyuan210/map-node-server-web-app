@@ -11,9 +11,15 @@ const findReviewsByPlace = async (req, res) => {
   res.json(reviews);
 }
 
+const findReviewsByUser = async (req, res) => {
+  const reviews = await reviewsDao.findReviewsByUser(req.params.uid);
+  res.json(reviews);
+}
+
 const ReviewsController = (app) => {
   app.post('/api/reviews', createReview)
   app.get('/api/reviews/place/:xid', findReviewsByPlace)
+  app.get('/api/reviews/user/:uid', findReviewsByUser)
 }
 
 export default ReviewsController;

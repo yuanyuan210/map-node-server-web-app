@@ -6,6 +6,7 @@ const findAllUsers = async (req, res) => {
   const users = await userDao.findAllUsers()
   res.json(users)
 }
+
 const createUser = async (req, res) => {
   const newUser = req.body;
   const actualUser = await userDao.createUser(newUser)
