@@ -2,16 +2,6 @@ import * as userDao from './users-dao.js'
 
 let currentUser = null
 
-const templateUser = {
-  username: "",
-  password: "",
-  email: "",
-  firstname: "",
-  lastname: "",
-  role: "",
-  bio: ""
-}
-
 const findAllUsers = async (req, res) => {
   const users = await userDao.findAllUsers()
   res.json(users)
@@ -38,7 +28,7 @@ const register = async (req, res) => {
     res.sendStatus(403)
     return
   }
-  const currentUser = await userDao.createUser({...templateUser, ...user})
+  const currentUser = await userDao.createUser(user)
   req.session['currentUser'] = currentUser
   res.json(currentUser)
 }
