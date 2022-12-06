@@ -19,7 +19,11 @@ const updateUser = async (req, res) => {
   res.json(status)
 }
 
-const deleteUser = () => {
+const deleteUser = async (req, res) => {
+  const uid = req.params.uid
+  const status = await userDao.deleteUser(uid)
+  console.log(status)
+  res.json(status)
 }
 
 const register = async (req, res) => {
