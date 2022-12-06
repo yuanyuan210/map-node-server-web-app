@@ -6,6 +6,7 @@ import LikesController from "./likes/likes-controller.js";
 import ReviewsController from "./reviews/reviews-controller.js";
 import SessionController from "./session-controller.js";
 import mongoose from "mongoose";
+import PlaceinfoController from "./placeinfo/placeinfo-controller.js";
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING
     || 'mongodb://localhost:27017/map';
 
@@ -40,5 +41,6 @@ UsersController(app);
 SessionController(app);
 LikesController(app);
 ReviewsController(app);
+PlaceinfoController(app);
 
 app.listen(process.env.PORT || 4000);
