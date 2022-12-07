@@ -16,6 +16,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const updates = req.body
   const status = await userDao.updateUser(req.params.uid, updates)
+  req.session['currentUser'] = {...currentUser, ...updates}
   res.json(status)
 }
 
