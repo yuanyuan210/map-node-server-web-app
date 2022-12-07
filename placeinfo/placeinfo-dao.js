@@ -7,7 +7,7 @@ export const updatePlaceinfo = (piid, placeinfo) => placeinfoModel.updateOne({_i
 
 export const deletePlaceinfo = (piid) => placeinfoModel.deleteOne({_id: piid});
 
-export const findPlaceinfoByPlace = (xid) => placeinfoModel.find({"place.xid": xid});
+export const findPlaceinfoByPlace = (xid) => placeinfoModel.findOne({"place.xid": xid});
 
 export const findPlaceinfoByManager = (uid) => placeinfoModel.find({"manager._id": uid});
 
