@@ -6,6 +6,13 @@ const createReview = async (req, res) => {
   res.json(insertedReview);
 }
 
+const updateReview = async (req, res) => {
+  const rid = req.params.rid;
+  const updates = req.body;
+  const status = await reviewsDao.updateReview(rid, updates);
+  res.json(status);
+}
+
 const deleteReview = async (req, res) => {
   const status = await reviewsDao.deleteReview(req.params.rid);
   res.json(status);
@@ -23,6 +30,7 @@ const findReviewsByUser = async (req, res) => {
 
 const ReviewsController = (app) => {
   app.post('/api/reviews', createReview)
+  app.put('/api/reviews/:rid', updateReview)
   app.delete('/api/reviews/:rid', deleteReview)
   app.get('/api/reviews/place/:xid', findReviewsByPlace)
   app.get('/api/reviews/user/:uid', findReviewsByUser)
