@@ -28,12 +28,18 @@ const findReviewsByUser = async (req, res) => {
   res.json(reviews);
 }
 
+const findLastNReviewsByUser = async (req, res) => {
+  const reviews = await reviewsDao.findLastNReviewsByUser(req.params.uid, parseInt(req.params.limit));
+  res.json(reviews);
+}
+
 const ReviewsController = (app) => {
   app.post('/api/reviews', createReview)
   app.put('/api/reviews/:rid', updateReview)
   app.delete('/api/reviews/:rid', deleteReview)
   app.get('/api/reviews/place/:xid', findReviewsByPlace)
   app.get('/api/reviews/user/:uid', findReviewsByUser)
+  app.get('/api/reviews/user/:uid/:limit', findLastNReviewsByUser)
 }
 
 export default ReviewsController;
