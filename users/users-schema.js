@@ -8,7 +8,7 @@ const usersSchema = mongoose.Schema({
     lastname: String,
     location: String,
     bio: String,
-    role: {type: String, enum: ['Admin', 'Manager', 'Visitor']}
+    role: {type: String, enum: ['Admin', 'Manager', 'Visitor'], required: true}
 }, {collection: "users"})
 
 export default usersSchema;
