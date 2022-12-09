@@ -7,6 +7,7 @@ const usersSchema = mongoose.Schema({
     firstname: String,
     lastname: String,
     location: String,
+    dateOfBirth: Date,
     bio: String,
     role: {type: String, enum: ['Admin', 'Manager', 'Visitor'], required: true}
 }, {collection: "users"})
