@@ -40,6 +40,10 @@ const findLikesByUser = async (req, res) => {
   res.json(likes);
 }
 
+const findMostLikedPlaces = async (req, res) => {
+  const likes = await likesDao.findMostLikedPlaces(parseInt(req.params.limit));
+  res.json(likes);
+}
 
 
 const LikesController = (app) => {
@@ -49,6 +53,7 @@ const LikesController = (app) => {
   app.get('/api/likes/user/:uid/place/:xid', findLike)
   app.get('/api/likes/place/:xid/count', findPlaceLikesCount)
   app.get('/api/likes/user/:uid', findLikesByUser)
+  app.get('/api/likes/most-liked-places/:limit', findMostLikedPlaces)
 }
 
 export default LikesController;
